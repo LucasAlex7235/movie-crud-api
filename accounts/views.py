@@ -1,10 +1,8 @@
-from django.shortcuts import render
 from rest_framework.views import APIView, Request, Response, status
+from .serializers import CustomJWTSerializer, AccountSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
-from .serializers import AccountSerializer, CustomJWTSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-import ipdb
 
 
 class LoginJWTView(TokenObtainPairView):

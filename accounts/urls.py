@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework_simplejwt import views 
+from rest_framework_simplejwt import views
 from .views import AccountView, LoginJWTView
 
 urlpatterns = [
