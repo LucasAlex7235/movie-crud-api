@@ -4,6 +4,7 @@ from rest_framework import serializers
 from .models import Account
 import ipdb
 
+
 class CustomJWTSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -30,4 +31,3 @@ class AccountSerializer(serializers.Serializer):
         if validated_data["is_employee"]:
             return Account.objects.create_user(**validated_data, is_superuser=True, is_staff=True)
         return Account.objects.create_user(**validated_data)
-        

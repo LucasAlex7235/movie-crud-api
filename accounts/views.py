@@ -4,7 +4,6 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
 
-# Create your views here.
 
 class LoginJWTView(TokenObtainPairView):
     serializer_class = CustomJWTSerializer
