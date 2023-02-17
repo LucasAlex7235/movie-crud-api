@@ -62,6 +62,7 @@ class UserViewsTestT1(APITestCase):
             "Verifique se o status code retornado do POST "
             + f"em `{self.BASE_URL}` é {expected_status_code}"
         )
+
         self.assertEqual(expected_status_code, result_status_code, msg)
 
         # RETORNO JSON

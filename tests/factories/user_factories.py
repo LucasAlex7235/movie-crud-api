@@ -19,7 +19,6 @@ def create_employee_with_token(employee_data=None) -> tuple[AbstractUser, Refres
 
     employee = User.objects.create_superuser(**employee_data)
     employee_token = RefreshToken.for_user(employee)
-
     return employee, employee_token
 
 
