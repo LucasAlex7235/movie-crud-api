@@ -26,6 +26,7 @@ class MovieViewsT2Test(APITestCase):
         response = self.client.get(self.BASE_URL)
 
         expected_count = movies_count
+
         resulted_count = len(response.json())
 
         msg = "Verifique se todos os filmes estão sendo retornados corretamente"
@@ -79,7 +80,6 @@ class MovieViewsT2Test(APITestCase):
         }
         self.client.credentials(HTTP_AUTHORIZATION="Bearer " + employee_token)
         response = self.client.post(self.BASE_URL, data=movie_data, format="json")
-
         # STATUS CODE
         expected_status_code = status.HTTP_201_CREATED
         resulted_status_code = response.status_code
