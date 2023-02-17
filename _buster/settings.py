@@ -33,10 +33,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
 ]
 
-MY_APPS = [
-    "accounts",
-    "movies"
-]
+MY_APPS = ["accounts", "movies"]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -118,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-# TIME_ZONE = "UTC"
+TIME_ZONE = "UTC"
 
-TIME_ZONE = "America/Sao_Paulo"  # Horario de brasilia
+# TIME_ZONE = "America/Sao_Paulo"  # Horario de brasilia
 
 USE_I18N = True
 
@@ -137,7 +134,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = 'accounts.Account'
+AUTH_USER_MODEL = "accounts.Account"
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
