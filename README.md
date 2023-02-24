@@ -229,3 +229,97 @@ Esse endpoint permite que um usuário autenticado delete um pedido de um filme e
 ```json
 
 ```
+
+#### Criação de Avaliação de Filme
+
+
+```http
+   POST /api/movies/{movie_id}/ratings/
+```
+Esse endpoint permite que um usuário autenticado crie uma avaliação para um filme específico, fornecendo seu movie_id e a avaliação em si.
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `movie_id`      | `int` | **Obrigatório**. O ID do filme que você quer |
+
+### Request: 
+
+```json
+{
+    "rating": 4,
+    "comment": "Um ótimo filme, recomendo!"
+}
+```
+
+### Response - 201 (created): 
+
+```json
+{
+    "id": 2,
+    "rating": 4,
+    "comment": "Um ótimo filme, recomendo!",
+    "user": {
+        "id": 1,
+        "username": "john.doe",
+        "email": "john.doe@example.com",
+        "first_name": "John",
+        "last_name": "Doe",
+        "birthdate": "1990-01-01",
+        "is_employee": true
+    }
+}
+```
+
+#### Update de Avaliação de Filme
+
+
+```http
+   PACTH /api/movies/{movie_id}/reviews/{review_id}/
+```
+Esse endpoint permite que um usuário autenticado atualize uma avaliação que já tenha sido criada para um filme específico. Para atualizar a avaliação, é necessário informar o ID da avaliação (review_id), além do ID do filme (movie_id).
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `movie_id`      | `int` | **Obrigatório**. O ID do filme para o qual a avaliação se refere. |
+| `review_id`     | `int` | **Obrigatório**. O ID da avaliação a ser atualizada. |
+| `rating`      | `int` | **Opcional**.  A nova avaliação do filme. |
+| `comment`      | `int` | **Opcional**. O novo comentário sobre o filme. |
+
+### Request: 
+
+```json
+{
+    "rating": 4.5,
+    "comment": "Eu amei este filme!"
+}
+```
+
+### Response - 200 (OK): 
+
+```json
+{
+    "id": 1,
+    "movie": {
+        "id": 1,
+        "title": "O Poderoso Chefão",
+        "duration": "2h55m",
+        "rating": "R",
+        "synopsis": "O filme conta a história da família Corleone, uma das mais poderosas famílias da máfia italiana nos Estados Unidos."
+    },
+    "user": {
+        "id": 2,
+        "username": "alice",
+        "email": "alice@example.com",
+        "first_name": "Alice",
+        "last_name": "Wonderland",
+        "birthdate": "1980-01-01",
+        "is_employee": false
+    },
+    "rating": 4.5,
+    "comment": "Eu adorei este filme!",
+    "created_at": "2023-02-24T16:38:28.185026Z",
+    "updated_at": "2023-02-24T16:42:08.103926Z"
+}
+```
+
+
