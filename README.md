@@ -1,74 +1,231 @@
-# M5 - Kenzie Buster
+## Documentação da API
 
-## Instalação dos pacotes de teste
+#### Movies
 
-- Verifique se os pacotes `pytest` e/ou `pytest-testdox` estão instalados globalmente em seu sistema:
-```shell
-pip list
-```
-- Caso seja listado o `pytest` e/ou `pytest-testdox` e/ou `pytest-django` em seu ambiente global, utilize os seguintes comando para desinstalá-los globalmente:
-```shell
-pip uninstall pytest
+```http
+  GET /api/movies/
 ```
 
-```shell
-pip uninstall pytest-testdox
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `api_key` | `string` | **Obrigatório**. A chave da sua API |
+
+
+### Response - 200 (OK):
+
+
+```json
+[
+    {
+        "id": 1,
+        "title": "O Poderoso Chefão",
+        "duration": "2h55m",
+        "rating": "R",
+        "synopsis": "O filme conta a história da família Corleone, uma das mais poderosas famílias da máfia italiana nos Estados Unidos.",
+        "orders": [
+            {
+                "id": 1,
+                "buyed_at": "2022-01-01T20:00:00Z",
+                "price": "10.00",
+                "user": {
+                    "id": 1,
+                    "username": "admin",
+                    "email": "admin@admin.com",
+                    "first_name": "Admin",
+                    "last_name": "Istrador",
+                    "birthdate": null,
+                    "is_superuser": true,
+                    "is_employee": true
+                }
+            }
+        ],
+        "user": {
+            "id": 1,
+            "username": "admin",
+            "email": "admin@admin.com",
+            "first_name": "Admin",
+            "last_name": "Istrador",
+            "birthdate": null,
+            "is_superuser": true,
+            "is_employee": true
+        },
+        "added_by": "Admin Istrador"
+    },
+    {
+        "id": 2,
+        "title": "Matrix",
+        "duration": "2h16m",
+        "rating": "R",
+        "synopsis": "Um programador de computadores é levado de sua vida cotidiana para se juntar a uma rebelião contra máquinas.",
+        "orders": [],
+        "user": {
+            "id": 1,
+            "username": "admin",
+            "email": "admin@admin.com",
+            "first_name": "Admin",
+            "last_name": "Istrador",
+            "birthdate": null,
+            "is_superuser": true,
+            "is_employee": true
+        },
+        "added_by": "Admin Istrador"
+    }
+]
 ```
 
-```shell
-pip uninstall pytest-django
+#### Detalhes do filme
+
+```http
+  GET /api/movies/{movie_id}/
 ```
 
-A partir disso, prossiga com os passos:
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `movie_id`      | `int` | **Obrigatório**. O ID do filme que você quer |
 
-1. Crie seu ambiente virtual:
-```bash
-python -m venv venv
+### Response - 200 (OK):
+
+```json
+{
+    "id": 1,
+    "title": "Titanic",
+    "duration": "194 min",
+    "rating": "PG-13",
+    "synopsis": "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+    "orders": [
+        {
+            "id": 1,
+            "buyed_at": "2023-02-24T15:28:09.556050Z",
+            "price": 15.99,
+            "user": {
+                "id": 1,
+                "username": "john.doe",
+                "email": "john.doe@example.com",
+                "first_name": "John",
+                "last_name": "Doe",
+                "birthdate": "1990-01-01",
+                "is_employee": true
+            }
+        },
+        {
+            "id": 2,
+            "buyed_at": "2023-02-23T16:11:20.769900Z",
+            "price": 12.99,
+            "user": {
+                "id": 2,
+                "username": "jane.doe",
+                "email": "jane.doe@example.com",
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "birthdate": "1995-05-05",
+                "is_employee": false
+            }
+        }
+    ],
+    "user": {
+        "id": 1,
+        "username": "john.doe",
+        "email": "john.doe@example.com",
+        "first_name": "John",
+        "last_name": "Doe",
+        "birthdate": "1990-01-01",
+        "is_employee": true
+    },
+    "added_by": "John Doe"
+}
 ```
 
-2. Ative seu venv:
-```bash
-# linux:
-source venv/bin/activate
+#### Pedidos do filme
 
-# windows:
-.\venv\Scripts\activate
+```http
+  POST /api/movies/{movie_id}/orders/
+```
+Esse endpoint permite que um usuário autenticado faça um pedido de um filme específico fornecendo seu movie_id e o preço pago pelo pedido.
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `movie_id`      | `int` | **Obrigatório**. O ID do filme que você quer |
+
+### Request: 
+
+```json
+{
+    "price": 15.99
+}
 ```
 
-3. Instale o pacote `pytest-testdox`:
-```shell
-pip install pytest-testdox pytest-django
+### Response - 201 (created): 
+
+```json
+{
+    "id": 3,
+    "buyed_at": "2023-02-24T16:10:23.557223Z",
+    "price": 15.99,
+    "user": {
+        "id": 3,
+        "username": "james.smith",
+        "email": "james.smith@example.com",
+        "first_name": "James",
+        "last_name": "Smith",
+        "birthdate": "1985-03-20",
+        "is_employee": false
+    }
+}
 ```
 
-5. Vá até o arquivo `pytest.ini` e modifique o nome do projeto `my_project_name.settings` para o nome do **seu_projeto**.settings (onde se encontra o settings.py)
+#### Update de Pedido do filme
 
-4. Agora é só rodar os testes no diretório principal do projeto:
-```shell
-pytest --testdox -vvs
+```http
+   PACTH /api/movies/{movie_id}/orders/{order_id}/
+```
+Esse endpoint permite que um usuário autenticado atualize um pedido de um filme específico fornecendo seu movie_id, o ID do pedido e as informações a serem atualizadas.
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `movie_id`      | `int` | **Obrigatório**. O ID do filme que você quer |
+| `order_id`      | `int` | **Obrigatório**. O ID do pedido que você quer |
+
+### Request: 
+
+```json
+{
+    "price": 15.99
+}
 ```
 
+### Response - 200 (OK): 
 
-
-## Rodando os testes de cada tarefa isoladamente
-
-Ao fim de cada tarefa será possível executar uma suite de testes direcionada àquela tarefa específica. Lembre-se de sempre estar com o **virtual enviroment (venv) ativado**.
-
-- Rodando testes da Tarefa 1:
-```python
-pytest --testdox -vvs tests/tarefas/t1/
+```json
+{
+    "id": 3,
+    "buyed_at": "2023-02-24T16:10:23.557223Z",
+    "price": 14.99,
+    "user": {
+        "id": 3,
+        "username": "james.smith",
+        "email": "james.smith@example.com",
+        "first_name": "James",
+        "last_name": "Smith",
+        "birthdate": "1995-12-15",
+        "is_employee": false
+    }
+}
 ```
 
-- Rodando testes da Tarefa 2:
-```python
-pytest --testdox -vvs tests/tarefas/t2/
-```
+#### Delete de Pedido do filme
 
-- Rodando testes da Tarefa 3:
-```python
-pytest --testdox -vvs tests/tarefas/t3/
+```http
+   DELETE /api/movies/{movie_id}/orders/{order_id}/
 ```
+Esse endpoint permite que um usuário autenticado delete um pedido de um filme específico fornecendo seu movie_id e o ID do pedido que deseja excluir.
 
-- Rodando testes da Tarefa 4:
-```python
-pytest --testdox -vvs tests/tarefas/t4/
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `movie_id`      | `int` | **Obrigatório**. O ID do filme que você quer |
+| `order_id`      | `int` | **Obrigatório**. O ID do pedido que você quer |
+
+### Response - 204 (No Content):
+
+```json
+
 ```
